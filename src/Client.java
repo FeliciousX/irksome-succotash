@@ -2,6 +2,13 @@ import java.io.*;
 import java.net.*;
 
 public class Client {
+    public static String hostName;
+    public static int portNumber;
+    public static Socket clientSocket;
+    public static PrintWriter out;
+    public static BufferedReader in;
+    public static BufferedReader stdIn;
+
     public static void main(String[] args) throws IOException {
 
         if (args.length != 2) {
@@ -10,16 +17,16 @@ public class Client {
             System.exit(1);
         }
 
-        String hostName = args[0];
-        int portNumber = Integer.parseInt(args[1]);
+        hostName = args[0];
+        portNumber = Integer.parseInt(args[1]);
 
         try {
-            Socket clientSocket = new Socket(hostName, portNumber);
-            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-            BufferedReader in = new BufferedReader(
+            clientSocket = new Socket(hostName, portNumber);
+            out = new PrintWriter(clientSocket.getOutputStream(), true);
+            in = new BufferedReader(
                 new InputStreamReader(clientSocket.getInputStream())
             );
-            BufferedReader stdIn = new BufferedReader(
+            stdIn = new BufferedReader(
                 new InputStreamReader(System.in)
             );
 

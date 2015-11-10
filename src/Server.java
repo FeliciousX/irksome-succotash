@@ -3,6 +3,14 @@ import java.io.*;
 import java.util.*;
 
 public class Server {
+    public static int portNumber;
+    public static ServerSocket serverSocket;
+    public static Socket clientSocket;
+    public static PrintWriter out;
+    public static BufferedReader in;
+    public static Hashtable<Character, Integer> frequency;
+
+
     public static void main(String[] args) throws IOException {
 
         if (args.length != 1) {
@@ -10,21 +18,21 @@ public class Server {
             System.exit(1);
         }
 
-        int portNumber = Integer.parseInt(args[0]);
+        portNumber = Integer.parseInt(args[0]);
 
         try {
-            ServerSocket serverSocket = new ServerSocket(portNumber);
+            serverSocket = new ServerSocket(portNumber);
             System.out.println("Listening on port " + portNumber);
 
-            Socket clientSocket = serverSocket.accept();
+            clientSocket = serverSocket.accept();
 
             System.out.println("Client connected at " + clientSocket.toString());
 
-            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+            out = new PrintWriter(clientSocket.getOutputStream(), true);
 
             out.println("Connected to Server at port " + portNumber);
 
-            BufferedReader in = new BufferedReader(
+            in = new BufferedReader(
                 new InputStreamReader( clientSocket.getInputStream() )
             );
 
@@ -40,7 +48,7 @@ public class Server {
     }
 
     public static String processData(String line) {
-        Hashtable<Character, Integer> frequency = new Hashtable<Character, Integer>();
+        frequency = new Hashtable<Character, Integer>();
 
         Character key = null;
         Integer count = null;
