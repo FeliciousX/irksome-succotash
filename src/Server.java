@@ -1,5 +1,6 @@
 import java.net.*;
 import java.io.*;
+import java.util.*;
 
 public class Server {
     public static void main(String[] args) throws IOException {
@@ -39,7 +40,23 @@ public class Server {
     }
 
     public static String processData(String line) {
-        // TODO: process the data
-        return line;
+        Hashtable<Character, Integer> frequency = new Hashtable<Character, Integer>();
+
+        Character key = null;
+        Integer count = null;
+        for (char c : line.toCharArray()) {
+            key = new Character(c);
+
+            count = frequency.get(key);
+
+            if (count != null) {
+                frequency.put(key, count.intValue() + 1);
+            }
+            else {
+                frequency.put(key, 1);
+            }
+        }
+
+        return frequency.toString();
     }
 }
