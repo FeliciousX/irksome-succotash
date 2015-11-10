@@ -9,6 +9,7 @@ public class Server {
     public static PrintWriter out;
     public static BufferedReader in;
     public static Hashtable<Character, Integer> frequency;
+    public static Hashtable<Character, String> binaryMap;
 
     public static void main(String[] args) throws IOException {
 
@@ -30,13 +31,14 @@ public class Server {
             out.println("Connected to Server at port " + portNumber);
 
             in = new BufferedReader(
-                new InputStreamReader( clientSocket.getInputStream() )
-            );
+                    new InputStreamReader( clientSocket.getInputStream() )
+                    );
 
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
                 frequency = mapCharacterFrequency(inputLine);
-                out.println(frequency);
+                binaryMap = deriveBinaryMap(frequency);
+                out.println(binaryMap);
             }
         } catch (IOException e) {
             System.out.println("Exception caught when trying to listen on port "
@@ -62,6 +64,23 @@ public class Server {
                 ht.put(key, 1);
         }
 
+        return ht;
+    }
+    
+    public static Hashtable<Character, String> deriveBinaryMap(Hashtable<Character, Integer> frequencyMap) {
+        Hashtable<Character, String> ht = new Hashtable<Character, String>();
+
+        int charSize = frequencyMap.size();
+        System.out.println("Number of characters: " + charSize);
+
+        int binaryLength = (int) (Math.log(charSize) / Math.log(2));
+
+        // if there's decimal places, +1 to binary number
+        if (Math.log(charSize) % Math.log(2) != 0)
+            binaryLength++;
+
+        // TODO: get keys from frequencyMap and loop through it
+        // while looping, assign a binary representation and store into the map
         return ht;
     }
 }
