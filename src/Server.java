@@ -35,7 +35,7 @@ public class Server {
 
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
-                frequency = mapStringFrequency(inputLine);
+                frequency = mapCharacterFrequency(inputLine);
                 out.println(frequency);
             }
         } catch (IOException e) {
@@ -45,7 +45,7 @@ public class Server {
         }
     }
 
-    public static Hashtable<Character, Integer> mapStringFrequency(String line) {
+    public static Hashtable<Character, Integer> mapCharacterFrequency(String line) {
         Hashtable<Character, Integer> ht = new Hashtable<Character, Integer>();
 
         Character key = null;
