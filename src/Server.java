@@ -10,7 +10,6 @@ public class Server {
     public static BufferedReader in;
     public static Hashtable<Character, Integer> frequency;
 
-
     public static void main(String[] args) throws IOException {
 
         if (args.length != 1) {
@@ -25,11 +24,9 @@ public class Server {
             System.out.println("Listening on port " + portNumber);
 
             clientSocket = serverSocket.accept();
-
             System.out.println("Client connected at " + clientSocket.toString());
 
             out = new PrintWriter(clientSocket.getOutputStream(), true);
-
             out.println("Connected to Server at port " + portNumber);
 
             in = new BufferedReader(
@@ -38,7 +35,8 @@ public class Server {
 
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
-                out.println(processData(inputLine));
+                frequency = mapStringFrequency(inputLine);
+                out.println(frequency);
             }
         } catch (IOException e) {
             System.out.println("Exception caught when trying to listen on port "
@@ -47,24 +45,23 @@ public class Server {
         }
     }
 
-    public static String processData(String line) {
-        frequency = new Hashtable<Character, Integer>();
+    public static Hashtable<Character, Integer> mapStringFrequency(String line) {
+        Hashtable<Character, Integer> ht = new Hashtable<Character, Integer>();
 
         Character key = null;
         Integer count = null;
+
         for (char c : line.toCharArray()) {
             key = new Character(c);
 
-            count = frequency.get(key);
+            count = ht.get(key);
 
-            if (count != null) {
-                frequency.put(key, count.intValue() + 1);
-            }
-            else {
-                frequency.put(key, 1);
-            }
+            if (count != null)
+                ht.put(key, count.intValue() + 1);
+            else
+                ht.put(key, 1);
         }
 
-        return frequency.toString();
+        return ht;
     }
 }
